@@ -17,6 +17,7 @@ Aggiungere il ciclo infinito del carosello. Ovvero se la miniatura attiva è la 
 */
 
 
+//1- CREO ARRAY DI OGGETTI
 const images = [
     {
       url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
@@ -51,3 +52,101 @@ const images = [
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.',
     },
   ];
+
+//2- STAMPO IN PAGINA GLI ELEMENTI DELLA ARRAY CON IL METODO DELLA STRINGA
+const gallery = document.getElementById('gallery');
+const thumbs = document.getElementById('thumbnail');
+
+//GALLERY
+let image = '';
+
+for(let i = 0; i < images.length; i++){
+    const currentImage = images[i];
+    image += 
+    `
+    <img src="${currentImage.url}" alt="${currentImage.title}" class="img">
+    <div class="description-image">
+        <h2 class="text-end">${currentImage.title}</h2>
+        <p class="text-end">${currentImage.description}</p>
+    </div> 
+    ` 
+}
+
+gallery.innerHTML = image;
+
+
+//THUMBNAIL
+let thumbImages = '';
+
+for(let i = 0; i < images.length; i++){
+    const currentImageThumb = images[i];
+    thumbImages += 
+    `
+    <img src="${currentImageThumb.url}" alt="${currentImageThumb.title}" class="thumb">
+    ` 
+}
+
+thumbs.innerHTML = thumbImages;
+
+//3--Preparo un variabile per tenere d'occhio l'immagine attiva
+let currentActiveIndex = 0;
+
+//4--Decido che all'apertura della pagina sia sempre attiva la prima immagine
+const imgGallery = document.getElementsByClassName('img');
+imgGallery[currentActiveIndex].classList.add("active");
+
+//Decido che all'apertura della pagina sia sempre attiva la prima descrizione
+const descriptionImg = document.getElementsByClassName('description-image');
+descriptionImg[currentActiveIndex].classList.add("active");
+
+//Decido che all'apertura della pagina sia sempre attiva la prima immagine piccola
+const imgThumb = document.getElementsByClassName('thumb');
+imgThumb[currentActiveIndex].classList.add("active");
+
+
+// !LOGICA BOTTONI //
+//5-Recupero i bottoni con l'id
+const prevButton = document.getElementById('prev');
+const nextButton = document.getElementById('next');
+
+//6-Aggiungo un addEvenListener sul button NEXT in modo da cambiare immagine
+nextButton.addEventListener('click', function(){
+    //rimuovo la class active
+    imgGallery[currentActiveIndex].classList.remove('active');
+    imgThumb[currentActiveIndex].classList.remove("active");
+    descriptionImg[currentActiveIndex].classList.remove("active");
+
+    //incremento il currentActiveIndex in modo da cambiare immagine
+    currentActiveIndex++;
+
+    //controllo in che posizione sono
+    if(currentActiveIndex == images.length){
+        currentActiveIndex = 0;
+    }
+
+    //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
+    imgGallery[currentActiveIndex].classList.add('active');
+    imgThumb[currentActiveIndex].classList.add("active");
+    descriptionImg[currentActiveIndex].classList.add("active");
+})
+
+//7-Aggiungo un addEvenListener sul button Prev in modo da cambiare immagine
+prevButton.addEventListener('click', function(){
+    //rimuovo la class active
+    imgGallery[currentActiveIndex].classList.remove('active');
+    imgThumb[currentActiveIndex].classList.remove("active");
+    descriptionImg[currentActiveIndex].classList.remove("active");
+
+    //decremento il currentActiveIndex in modo da cambiare immagine
+    currentActiveIndex--;
+
+    //controllo in che posizione sono
+    if(currentActiveIndex < 0){
+        currentActiveIndex = images.length - 1;
+    }
+
+    //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
+    imgGallery[currentActiveIndex].classList.add('active');
+    imgThumb[currentActiveIndex].classList.add("active");
+    descriptionImg[currentActiveIndex].classList.add("active");
+})
