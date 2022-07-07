@@ -1,4 +1,83 @@
-/* :root{
-    --pink: #E53170;
-} */
+/*****************
+CAROUSEL 
+******************/
+#carousel{
+    width: 800px;
+    height: 400px;
+    margin: 30px auto;
+    position: relative;
+}
 
+#carousel #gallery{
+    width: 100%;
+    height: 100%;
+}
+
+#carousel #gallery img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    /* display: none; */
+}
+
+#carousel #gallery .description-image{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #fff;
+
+}
+
+#carousel #gallery .active{
+    display: block;
+}
+
+#carousel .bi{
+    font-size: 2.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#carousel .bi:hover{
+    color: dodgerblue;
+}
+
+#carousel .bi-arrow-left-square-fill{
+    right: 105%;
+}
+
+#carousel .bi-arrow-right-square-fill{
+    left: 105%;
+}
+
+
+/* ? THUMBNAIL */
+#thumbnail{
+    width: 800px;
+    height: 80px;
+    margin: auto; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#thumbnail img {
+    width: 19%;
+    height: 100%;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    filter: grayscale(1);
+}
+
+#thumbnail img:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+
+#thumbnail .active{
+    filter: grayscale(0);
+    box-shadow: 0 0 10px dodgerblue;
+}
