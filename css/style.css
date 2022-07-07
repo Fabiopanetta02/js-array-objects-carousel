@@ -32,24 +32,16 @@ CAROUSEL
     display: block;
 }
 
-#carousel .bi{
-    font-size: 2.5rem;
+
+#controls .bi{
+    margin: 0px 20px;
+    font-size: 3rem;
     cursor: pointer;
-    position: absolute;
-    top: 50%;
     transform: translateY(-50%);
 }
 
-#carousel .bi:hover{
+#controls .bi:hover{
     color: dodgerblue;
-}
-
-#carousel .bi-arrow-left-square-fill{
-    right: 105%;
-}
-
-#carousel .bi-arrow-right-square-fill{
-    left: 105%;
 }
 
 
@@ -57,7 +49,7 @@ CAROUSEL
 #thumbnail{
     width: 800px;
     height: 80px;
-    margin: auto; 
+    margin: 30px auto; 
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

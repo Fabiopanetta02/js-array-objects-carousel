@@ -5,15 +5,26 @@ Dato un array di oggetti letterali con:
 - titolo
 - descrizione
 Creare un carosello ispirandosi alla foto allegata. Potete anche usare come base il carosello dell'esercizio precedente
-## Milstone 0:
+
+//## Milstone 0:
 Come nel primo carosello realizzato, focalizziamoci prima sulla creazione del markup statico: costruiamo il container e inseriamo l’immagine grande in modo da poter stilare lo slider.
 
-## Milestone 1:
+//## Milestone 1:
 Ora rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
 Al click dell’utente sulle frecce verso sinistra o destra, l’immagine attiva diventerà visibile e dovremo aggiungervi titolo e testo.
 
-## Milestone 2:
+//## Milestone 2:
 Aggiungere il ciclo infinito del carosello. Ovvero se la miniatura attiva è la prima e l’utente clicca la freccia verso destra, la miniatura che deve attivarsi sarà l’ultima e viceversa per l’ultima miniatura se l’utente clicca la freccia verso sinistra.
+---
+//## BONUS 1:
+Aggiungere le thumbnails (sottoforma di miniatura) ed al click attivare l’immagine corrispondente.
+
+//## BONUS 2:
+Aggiungere funzionalità di autoplay: dopo un certo periodo di tempo (3 secondi) l’immagine attiva dovrà cambiare alla successiva.
+
+//## BONUS 3:
+Aggiungere bottoni di start/stop e di inversione del meccanismo di autoplay.
+---
 */
 
 
@@ -59,7 +70,6 @@ const thumbs = document.getElementById('thumbnail');
 
 //GALLERY
 let image = '';
-
 for(let i = 0; i < images.length; i++){
     const currentImage = images[i];
     image += 
@@ -71,13 +81,11 @@ for(let i = 0; i < images.length; i++){
     </div> 
     ` 
 }
-
 gallery.innerHTML = image;
 
 
 //THUMBNAIL
 let thumbImages = '';
-
 for(let i = 0; i < images.length; i++){
     const currentImageThumb = images[i];
     thumbImages += 
@@ -85,7 +93,6 @@ for(let i = 0; i < images.length; i++){
     <img src="${currentImageThumb.url}" alt="${currentImageThumb.title}" class="thumb">
     ` 
 }
-
 thumbs.innerHTML = thumbImages;
 
 //3--Preparo un variabile per tenere d'occhio l'immagine attiva
@@ -105,48 +112,71 @@ imgThumb[currentActiveIndex].classList.add("active");
 
 
 // !LOGICA BOTTONI //
-//5-Recupero i bottoni con l'id
-const prevButton = document.getElementById('prev');
-const nextButton = document.getElementById('next');
+//5-Creo delle costanti e delle variabili
+const startButton = document.getElementById('start');
+const pauseButton = document.getElementById('pause');
+const reverseButton = document.getElementById('reverse');
+let autoplay;
 
-//6-Aggiungo un addEvenListener sul button NEXT in modo da cambiare immagine
-nextButton.addEventListener('click', function(){
-    //rimuovo la class active
-    imgGallery[currentActiveIndex].classList.remove('active');
-    imgThumb[currentActiveIndex].classList.remove("active");
-    descriptionImg[currentActiveIndex].classList.remove("active");
+//6-Aggiungo un addEvenListener sul button //!START//
+startButton.addEventListener('click', function(){
 
-    //incremento il currentActiveIndex in modo da cambiare immagine
-    currentActiveIndex++;
+    //Creo la logica per cambiare le immagini da solo in maniera CRESCENTE
+    autoplay = setInterval(function(){
 
-    //controllo in che posizione sono
-    if(currentActiveIndex == images.length){
-        currentActiveIndex = 0;
-    }
+        //rimuovo la class active
+        imgGallery[currentActiveIndex].classList.remove('active');
+        imgThumb[currentActiveIndex].classList.remove("active");
+        descriptionImg[currentActiveIndex].classList.remove("active");
+    
+        //incremento il currentActiveIndex in modo da cambiare immagine
+        currentActiveIndex++;
+    
+        //controllo in che posizione sono
+        if(currentActiveIndex == images.length){
+            currentActiveIndex = 0;
+        }
+    
+        //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
+        imgGallery[currentActiveIndex].classList.add('active');
+        imgThumb[currentActiveIndex].classList.add("active");
+        descriptionImg[currentActiveIndex].classList.add("active");
 
-    //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
-    imgGallery[currentActiveIndex].classList.add('active');
-    imgThumb[currentActiveIndex].classList.add("active");
-    descriptionImg[currentActiveIndex].classList.add("active");
+    }, 3000)
+
 })
 
-//7-Aggiungo un addEvenListener sul button Prev in modo da cambiare immagine
-prevButton.addEventListener('click', function(){
-    //rimuovo la class active
-    imgGallery[currentActiveIndex].classList.remove('active');
-    imgThumb[currentActiveIndex].classList.remove("active");
-    descriptionImg[currentActiveIndex].classList.remove("active");
+//7-Aggiungo un addEvenListener sul button //!REVERSE//
+reverseButton.addEventListener('click', function(){
 
-    //decremento il currentActiveIndex in modo da cambiare immagine
-    currentActiveIndex--;
+    //Creo la logica per cambiare le immagini da solo in maniera DECRESCENTE
+    autoplay = setInterval(function(){
 
-    //controllo in che posizione sono
-    if(currentActiveIndex < 0){
-        currentActiveIndex = images.length - 1;
-    }
+        //rimuovo la class active
+        imgGallery[currentActiveIndex].classList.remove('active');
+        imgThumb[currentActiveIndex].classList.remove("active");
+        descriptionImg[currentActiveIndex].classList.remove("active");
 
-    //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
-    imgGallery[currentActiveIndex].classList.add('active');
-    imgThumb[currentActiveIndex].classList.add("active");
-    descriptionImg[currentActiveIndex].classList.add("active");
+        //decremento il currentActiveIndex in modo da cambiare immagine
+        currentActiveIndex--;
+
+        //controllo in che posizione sono
+        if(currentActiveIndex < 0){
+            currentActiveIndex = images.length - 1;
+        }
+
+        //Assegno la classe active alla nuova immagine corrispondente al currentActiveIndex 
+        imgGallery[currentActiveIndex].classList.add('active');
+        imgThumb[currentActiveIndex].classList.add("active");
+        descriptionImg[currentActiveIndex].classList.add("active");
+
+    }, 3000)
+    
+})
+
+//8-Aggiungo un addEvenListener sul button //!PAUSE//
+pauseButton.addEventListener('click', function(){
+
+    //Creo la logica per stoppare l'autoplay
+    clearInterval(autoplay);
 })
